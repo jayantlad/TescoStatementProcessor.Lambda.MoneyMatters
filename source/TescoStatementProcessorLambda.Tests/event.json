@@ -1,0 +1,32 @@
+{
+  "version": "0",
+  "id": "1b555f4c-9625-57eb-7ab7-7ae0deb0502e",
+  "detail-type": "Object Created",
+  "source": "aws.s3",
+  "account": "654654264950",
+  "time": "2024-06-10T05:44:24Z",
+  "region": "eu-west-1",
+  "resources": [
+    "arn:aws:s3:::money-matters-statements"
+  ],
+  "detail": {
+    "version": "0",
+    "bucket": {
+      "name": "money-matters-statements"
+    },
+    "object": {
+      "key": "hsbc/ar-AA1h0P6G.htm",
+      "size": 43590,
+      "etag": "c2723aa8bbf868585e4edc4c9be6ae55",
+      "version-id": "r028c72fJ5qmWx0y7oPw6MJvFh_v_Q4.",
+      "sequencer": "00666692B8B8E6B97F",
+      "folder": {
+        "name": "hsbc"
+      }
+    },
+    "request-id": "XRDHZWTY0Z7FG4XZ",
+    "requester": "654654264950",
+    "source-ip-address": "154.49.80.19",
+    "reason": "PutObject"
+  }
+}
