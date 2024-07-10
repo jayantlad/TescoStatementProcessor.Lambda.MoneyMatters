@@ -27,7 +27,7 @@ internal sealed class StatementProcessor(IStatementFactory statementFactory,
     }
 }
 
-interface IStatementProcessor
+public interface IStatementProcessor
 {
     Task ProcessAsync(Event @event, CancellationToken cancellationToken);
 }

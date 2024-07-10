@@ -7,22 +7,19 @@
   "time": "2024-06-10T05:44:24Z",
   "region": "eu-west-1",
   "resources": [
-    "arn:aws:s3:::money-matters-statements"
+    "arn:aws:s3:::moneymatters"
   ],
   "detail": {
     "version": "0",
     "bucket": {
-      "name": "money-matters-statements"
+      "name": "moneymatters"
     },
     "object": {
-      "key": "hsbc/ar-AA1h0P6G.htm",
+      "key": "tesco/181020.csv",
       "size": 43590,
       "etag": "c2723aa8bbf868585e4edc4c9be6ae55",
       "version-id": "r028c72fJ5qmWx0y7oPw6MJvFh_v_Q4.",
-      "sequencer": "00666692B8B8E6B97F",
-      "folder": {
-        "name": "hsbc"
-      }
+      "sequencer": "00666692B8B8E6B97F"
     },
     "request-id": "XRDHZWTY0Z7FG4XZ",
     "requester": "654654264950",

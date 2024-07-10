@@ -1,3 +1,4 @@
+using Amazon.Lambda.Annotations;
 using Amazon.Lambda.Core;
 using TescoStatementProcessorLambda.Dtos;
 
@@ -6,7 +7,7 @@ using TescoStatementProcessorLambda.Dtos;
 
 namespace TescoStatementProcessorLambda;
 
-internal class Function(IStatementProcessor statementProcessor)
+public class Function()
 {
     /// <summary>
     /// A simple function that takes a string and does a ToUpper
@@ -14,7 +15,8 @@ internal class Function(IStatementProcessor statementProcessor)
     /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
-    public async Task FunctionHandlerAsync(Event input, ILambdaContext context, CancellationToken cancellationToken)
+    [LambdaFunction]
+    public async Task FunctionHandlerAsync([FromServices]IStatementProcessor statementProcessor, Event input, ILambdaContext context, CancellationToken cancellationToken)
     {
         await statementProcessor.ProcessAsync(input, cancellationToken);
     }

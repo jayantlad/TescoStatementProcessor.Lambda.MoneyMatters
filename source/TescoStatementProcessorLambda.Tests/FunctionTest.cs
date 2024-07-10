@@ -16,11 +16,11 @@ public class FunctionTest
         CancellationToken cancellationToken = new();
         var statementProcessor = new Mock<IStatementProcessor>();
         statementProcessor.Setup(sp => sp.ProcessAsync(It.IsAny<Event>(), cancellationToken));
-        var function = new Function(statementProcessor.Object);
+        var function = new Function();
         var context = new TestLambdaContext();
 
         var @event = await JsonSerializer.DeserializeAsync<Event>(File.OpenRead(Path.Join(Environment.CurrentDirectory, "event.json")), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        var echo = function.FunctionHandlerAsync(@event, context, cancellationToken);
+        var echo = function.FunctionHandlerAsync(statementProcessor.Object, @event, context, cancellationToken);
 
         echo.Should().BeEquivalentTo(@event);
     }
