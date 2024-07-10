@@ -20,7 +20,7 @@ resource "aws_lambda_function" "tesco_handler" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
   s3_bucket = data.aws_s3_bucket.selected.id
-  s3_key = local.function_name
+  s3_key = "lambda-packages/${local.function_name}"
   function_name = local.function_name
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "TescoStatementProcessorLambda::TescoStatementProcessorLambda.Function::FunctionHandler"
