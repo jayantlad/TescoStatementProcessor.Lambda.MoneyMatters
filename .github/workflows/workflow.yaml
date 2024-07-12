@@ -19,6 +19,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    - name: AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-west-1
+        aws-access-key-id: {{ secret.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: {{ secret.AWS_SECRET_KEY }}
     - name: Setup AWS CLI
       uses: unfor19/install-aws-cli-action@v1
       with:
