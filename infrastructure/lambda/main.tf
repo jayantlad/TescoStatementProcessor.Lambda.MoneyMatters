@@ -18,7 +18,8 @@ resource "aws_iam_role" "iam_for_lambda" {
 
 resource "aws_lambda_function" "tesco_handler" {
   s3_bucket = data.aws_s3_bucket.selected.id
-  s3_key = "lambda-packages/${local.function_name}"
+  s3_key = "lambda-packages/${local.function_name}/package.zip"
+  s3_object_version = "${var.s3_object_version}"
   function_name = local.function_name
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "TescoStatementProcessorLambda::TescoStatementProcessorLambda.Function::FunctionHandler"
