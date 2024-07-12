@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 using TescoStatementHandler.Factories;
 using TescoStatementProcessorLambda.Dtos;
 
@@ -26,6 +27,7 @@ public class Function
             .ConfigureLogging((context, builder) =>
             {
                 builder.AddLambdaLogger();
+                builder.AddConfiguration();
             })
             .ConfigureServices((_, services) =>
 
@@ -55,6 +57,11 @@ public class Function
         try
         {
             _logger.LogInformation("we are running");
+            _logger.LogCritical("we are running");
+            _logger.LogDebug("we are running");
+            _logger.LogError("we are running");
+            _logger.LogTrace("we are running");
+            _logger.LogWarning("we are running");
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
