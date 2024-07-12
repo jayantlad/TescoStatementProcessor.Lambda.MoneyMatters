@@ -7,8 +7,13 @@ data "aws_iam_policy_document" "assume_role" {
       identifiers = ["lambda.amazonaws.com"]
     }
 
-    actions = ["sts:AssumeRole"]
+    actions = ["sts:AssumeRole", "s3:*", "dynamodb:*"]
+    resources = [
+      data.aws_dynamodb_table.tableName.arn,
+      "${data.aws_s3_bucket.selected.arn}/statements/tesco/*",
+    ]
   }
+
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
