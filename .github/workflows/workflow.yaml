@@ -32,7 +32,7 @@ jobs:
     - name: Build
       run: dotnet build ./source/TescoStatementProcessorLambda --no-restore 
     - name: Test
-      run: dotnet test ./source/TescoStatementProcessorLambda.Tests --no-build --verbosity normal
+      run: dotnet test ./source/TescoStatementProcessorLambda.Tests --verbosity normal
     - name: Package 
       run: dotnet lambda package --aws-access-key-id  {{ secrets.AWS_ACCESS_KEY_ID }} --aws-secret-key {{ secrets.AWS_SECRET_KEY }}  -pl ./source/TescoStatementProcessorLambda -c Release -pt zip -o package.zip
     - name: Deploy to S3
