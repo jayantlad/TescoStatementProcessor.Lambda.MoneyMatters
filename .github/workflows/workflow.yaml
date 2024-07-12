@@ -40,6 +40,6 @@ jobs:
     - name: Test
       run: dotnet test ./source/TescoStatementProcessorLambda.Tests --verbosity normal
     - name: Package 
-      run: dotnet lambda package --aws-access-key-id  {{ secrets.AWS_ACCESS_KEY_ID }} --aws-secret-key {{ secrets.AWS_SECRET_KEY }}  -pl ./source/TescoStatementProcessorLambda -c Release -pt zip -o package.zip
+      run: dotnet lambda package -pl ./source/TescoStatementProcessorLambda -c Release -pt zip -o package.zip
     - name: Deploy to S3
       run: aws s3 cp ./package.zip s3://moneymatters/lambda-packages/tesco_statement_handler/
