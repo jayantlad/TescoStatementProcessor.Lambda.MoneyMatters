@@ -44,7 +44,9 @@ public class Function
     /// <returns></returns>
     public async Task FunctionHandlerAsync(Event input, ILambdaContext context)
     {
-        try{
+        try
+        {
+            context.Logger.LogInformation("we are running");
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
