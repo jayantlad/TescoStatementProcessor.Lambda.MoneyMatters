@@ -5,6 +5,7 @@ using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using TescoStatementHandler.Factories;
 using TescoStatementProcessorLambda.Dtos;
 
@@ -17,6 +18,7 @@ public class Function
 {
     private IHost _host;
     private IStatementProcessor _statementProcessor;
+    private readonly ILogger<Function> _logger;
 
     public Function()
     {
@@ -35,6 +37,7 @@ public class Function
             .Build();
 
         _statementProcessor = _host.Services.GetRequiredService<IStatementProcessor>();
+        _logger = _host.Services.GetRequiredService<ILogger<Function>>();
     }
 
     /// <summary>
@@ -47,7 +50,7 @@ public class Function
     {
         try
         {
-            context.Logger.LogInformation("we are running");
+            _logger.LogInformation("we are running");
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
