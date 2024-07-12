@@ -23,7 +23,12 @@ public class Function
     public Function()
     {
         _host = Host.CreateDefaultBuilder()
+            .ConfigureLogging((context, builder) =>
+            {
+                builder.AddLambdaLogger();
+            })
             .ConfigureServices((_, services) =>
+
             {
                 services.AddDefaultAWSOptions(_.Configuration.GetAWSOptions());
                 services.AddAWSService<IAmazonS3>();
@@ -32,7 +37,6 @@ public class Function
                 services.AddScoped<IStatementProcessor, StatementProcessor>();
                 services.AddScoped<IStatementRespository, StatementRespository>();
                 services.AddScoped<IStatementFactory, StatementFactory>();
-                services.AddLogging();
             })
             .Build();
 
