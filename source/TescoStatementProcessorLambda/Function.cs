@@ -15,8 +15,8 @@ namespace TescoStatementProcessorLambda;
 
 public class Function
 {
-    private static IHost _host;
-    private static IStatementProcessor _statementProcessor;
+    private IHost _host;
+    private IStatementProcessor _statementProcessor;
 
     public Function()
     {
