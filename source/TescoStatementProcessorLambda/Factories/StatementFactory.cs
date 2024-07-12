@@ -7,13 +7,13 @@ public class StatementFactory : IStatementFactory
 {
     public async Task<Statement> CreateAsync(GetObjectResponse getObjectResponse, CancellationToken cancellationToken)
     {
-        IList<Transaction> transactionLines = new List<Transaction>();
+        List<Transaction> transactionLines = new List<Transaction>();
         
         using var stream = getObjectResponse.ResponseStream;
         var sr = new StreamReader(stream);
 
         if (sr.EndOfStream)
-            return new(Guid.NewGuid(), Enumerable.Empty<Transaction>(), string.Empty, string.Empty, string.Empty);
+            return new Statement { StatementId = Guid.NewGuid(), Transactions = Enumerable.Empty<Transaction>().ToList(), FileName = string.Empty, Provider = string.Empty, Product = string.Empty };
 
         sr.ReadLine();
 
@@ -23,7 +23,7 @@ public class StatementFactory : IStatementFactory
             transactionLines.Add(TransactionFactory.Create(line));
         }
 
-        return new Statement(Guid.NewGuid(), transactionLines, getObjectResponse.Key, Constants.Tesco, Constants.MasterCard);
+        return new Statement { StatementId = Guid.NewGuid(), Transactions = transactionLines, FileName = getObjectResponse.Key, Provider = Constants.Tesco, Product = Constants.MasterCard };
     }
 }
 

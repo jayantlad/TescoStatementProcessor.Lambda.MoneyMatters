@@ -1,9 +1,20 @@
 ﻿
+using Amazon.DynamoDBv2.DataModel;
 using System.Globalization;
 
 namespace TescoStatementProcessorLambda;
 
-public record class Statement(Guid id, IEnumerable<Transaction>? Transactions, string FileName, string Provider, string Product);
+[DynamoDBTable("Statements")]
+public record class Statement
+{
+    [DynamoDBHashKey]
+    public Guid StatementId { get; init; }
+
+    public List<Transaction>? Transactions { get; init; }
+    public string FileName  { get; init; }
+    public string Provider { get; init; }
+    public string Product { get; init; }
+}
 
 public record class Transaction
 {
@@ -24,7 +35,13 @@ public record class DateTimeValue()
     public DateTime DateTime => DateTime.Parse(DateTimeStr);
 }
 
-public record class MerchantValue(string Merchant, string MerchantCity, string MerchantState, string MerchantZip);
+public record class MerchantValue
+{
+    public string Merchant { get; set; }
+    public string MerchantCity { get; set; }
+    public string MerchantState { get; set; }
+    public string MerchantZip { get; set; }
+}
 
 public record class BillingAmountValue()
 {

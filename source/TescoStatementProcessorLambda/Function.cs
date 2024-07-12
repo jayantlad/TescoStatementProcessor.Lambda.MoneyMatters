@@ -1,5 +1,11 @@
-using Amazon.Lambda.Annotations;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.Core;
+using Amazon.S3;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using TescoStatementHandler.Factories;
 using TescoStatementProcessorLambda.Dtos;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -7,17 +13,37 @@ using TescoStatementProcessorLambda.Dtos;
 
 namespace TescoStatementProcessorLambda;
 
-public class Function()
+public class Function
 {
+    private static IHost _host;
+    private static IStatementProcessor _statementProcessor;
+
+    public Function()
+    {
+        _host = Host.CreateDefaultBuilder()
+            .ConfigureServices((_, services) =>
+            {
+                services.AddDefaultAWSOptions(_.Configuration.GetAWSOptions());
+                services.AddAWSService<IAmazonS3>();
+                services.AddAWSService<IAmazonDynamoDB>();
+                services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+                services.AddScoped<IStatementProcessor, StatementProcessor>();
+                services.AddScoped<IStatementRespository, StatementRespository>();
+                services.AddScoped<IStatementFactory, StatementFactory>();
+            })
+            .Build();
+
+        _statementProcessor = _host.Services.GetRequiredService<IStatementProcessor>();
+    }
+
     /// <summary>
     /// A simple function that takes a string and does a ToUpper
     /// </summary>
     /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
-    [LambdaFunction]
-    public async Task FunctionHandlerAsync([FromServices]IStatementProcessor statementProcessor, Event input, ILambdaContext context, CancellationToken cancellationToken)
+    public async Task FunctionHandlerAsync(Event input, ILambdaContext context)
     {
-        await statementProcessor.ProcessAsync(input, cancellationToken);
+        await _statementProcessor.ProcessAsync(input, new CancellationToken());
     }
 }

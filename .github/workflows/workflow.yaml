@@ -1,0 +1,39 @@
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup AWS CLI
+      uses: unfor19/install-aws-cli-action@v2
+      with:
+        version: 2
+        verbose: true
+        arch: amd64
+    - name: Dotnet AWS CLI
+      run: dotnet tool install -g Amazon.Lambda.Tools
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Package 
+      run: dotnet lambda package --aws-access-key-id  {{ secrets.AWS_ACCESS_KEY_ID }} --aws-secret-key {{ secrets.AWS_SECRET_KEY }}  -pl ./source/TescoStatementProcessorLambda -c Release -pt zip -o package.zip
+    - name: Deploy to S3
+      run: aws s3 cp ./package.zip s3://moneymatters/lambda-packages/tesco_statement_handler/

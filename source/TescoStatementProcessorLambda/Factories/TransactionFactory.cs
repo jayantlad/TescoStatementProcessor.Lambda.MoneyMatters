@@ -17,12 +17,12 @@ public class TransactionFactory
             PostingDate = new DateTimeValue { DateTimeStr = columns[(int)TransactionLineColumns.PostingDate] },
             BillingAmount = new BillingAmountValue { BillingAmountString = columns[(int)TransactionLineColumns.BillingAmount] },
             Merchant = new MerchantValue
-            (
-                Merchant: columns[(int)TransactionLineColumns.Merchant].Replace(@"""", ""),
-                MerchantCity: columns[(int)TransactionLineColumns.MerchantCity],
-                MerchantState: columns[(int)TransactionLineColumns.MerchantState],
-                MerchantZip: columns[(int)TransactionLineColumns.MerchantZip]
-            ),
+            {
+                Merchant = columns[(int)TransactionLineColumns.Merchant].Replace(@"""", ""),
+                MerchantCity = columns[(int)TransactionLineColumns.MerchantCity],
+                MerchantState = columns[(int)TransactionLineColumns.MerchantState],
+                MerchantZip = columns[(int)TransactionLineColumns.MerchantZip]
+            },
             ReferenceNumber = columns[(int)TransactionLineColumns.ReferenceNumber],
             DebitCreditFlag = new DebitCreditFlagValue { DebitCreditFlag = columns[(int)TransactionLineColumns.DebitCreditFlag] },
             SICMCCCode = columns[(int)TransactionLineColumns.SICMCCCode],

@@ -20,7 +20,7 @@ public class FunctionTest
         var context = new TestLambdaContext();
 
         var @event = await JsonSerializer.DeserializeAsync<Event>(File.OpenRead(Path.Join(Environment.CurrentDirectory, "event.json")), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        var echo = function.FunctionHandlerAsync(statementProcessor.Object, @event, context, cancellationToken);
+        var echo = function.FunctionHandlerAsync(@event, context);
 
         echo.Should().BeEquivalentTo(@event);
     }
