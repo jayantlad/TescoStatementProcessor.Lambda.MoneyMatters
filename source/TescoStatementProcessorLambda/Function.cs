@@ -54,7 +54,7 @@ public class Function
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
-            context.Logger.LogError(ex.ToString());
+            _logger.LogError(ex.ToString());
         }
     }
 }
