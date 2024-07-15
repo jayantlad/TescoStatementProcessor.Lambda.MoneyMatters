@@ -38,6 +38,7 @@ public class Function
         services.AddScoped<IStatementFactory, StatementFactory>();
         services.AddLogging(builder => {
             builder.ClearProviders();
+            builder.AddConsole();
             builder.AddSerilog();
         });
 
