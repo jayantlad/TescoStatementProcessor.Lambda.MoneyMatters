@@ -69,6 +69,12 @@ public class Function
             _logger.LogError("we are running");
             _logger.LogTrace("we are running");
             _logger.LogWarning("we are running");
+            Logger.LogInformation("we are running");
+            Logger.LogCritical("we are running");
+            Logger.LogDebug("we are running");
+            Logger.LogError("we are running");
+            Logger.LogTrace("we are running");
+            Logger.LogWarning("we are running");
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
