@@ -33,7 +33,7 @@ public class Function
         services.AddScoped<IStatementProcessor, StatementProcessor>();
         services.AddScoped<IStatementRespository, StatementRespository>();
         services.AddScoped<IStatementFactory, StatementFactory>();
-        services.AddLogging();
+        services.AddLogging(builder => builder.AddConsole());
 
         var sp = services.BuildServiceProvider();
         _statementProcessor = sp.GetRequiredService<IStatementProcessor>();
