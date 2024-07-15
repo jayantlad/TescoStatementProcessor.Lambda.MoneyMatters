@@ -12,6 +12,7 @@ using AWS.Lambda.Powertools.Logging;
 using TescoStatementHandler.Factories;
 using TescoStatementProcessorLambda.Dtos;
 using Microsoft.Extensions.Logging.Console;
+using Serilog;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -25,7 +26,8 @@ public class Function
 
     public Function()
     {
-        var config = new ConfigurationBuilder().Build();
+        var config = new ConfigurationBuilder()
+            .Build();
         var services= new ServiceCollection();
         services.AddDefaultAWSOptions(config.GetAWSOptions());
         services.AddAWSService<IAmazonS3>();
@@ -36,7 +38,7 @@ public class Function
         services.AddScoped<IStatementFactory, StatementFactory>();
         services.AddLogging(builder => {
             builder.ClearProviders();
-            builder.AddConsole();
+            builder.AddSerilog();
         });
 
         var sp = services.BuildServiceProvider();
