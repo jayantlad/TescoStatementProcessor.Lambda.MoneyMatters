@@ -58,6 +58,7 @@ resource "aws_iam_role" "iam_for_lambda" {
           "logs:*",
         ]
         Resource = [
+          "arn:aws:logs:*:${data.aws_caller_identity.current.id}:*",
           "arn:aws:logs:*:${data.aws_caller_identity.current.id}:log-group:/aws/lambda/*"
         ]
         Effect="Allow"

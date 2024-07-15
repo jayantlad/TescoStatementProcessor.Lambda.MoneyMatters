@@ -35,25 +35,6 @@ public class Function
         services.AddScoped<IStatementFactory, StatementFactory>();
         services.AddLogging();
 
-        /*_host = Host.CreateDefaultBuilder()
-            .ConfigureLogging((context, builder) =>
-            {
-                builder.AddLambdaLogger();
-                builder.AddConfiguration();
-            })
-            .ConfigureServices((_, services) =>
-
-            {
-                services.AddDefaultAWSOptions(_.Configuration.GetAWSOptions());
-                services.AddAWSService<IAmazonS3>();
-                services.AddAWSService<IAmazonDynamoDB>();
-                services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
-                services.AddScoped<IStatementProcessor, StatementProcessor>();
-                services.AddScoped<IStatementRespository, StatementRespository>();
-                services.AddScoped<IStatementFactory, StatementFactory>();
-                services.AddLogging();
-            })
-            .Build();*/
         var sp = services.BuildServiceProvider();
         _statementProcessor = sp.GetRequiredService<IStatementProcessor>();
         _logger = sp.GetRequiredService<ILogger<Function>>();
@@ -76,16 +57,16 @@ public class Function
     {
         try
         {
-            Logger.LogInformation("we are running");
-            Logger.LogCritical("we are running");
-            Logger.LogDebug("we are running");
-            Logger.LogError("we are running");
-            Logger.LogTrace("we are running");
-            Logger.LogWarning("we are running");
+            _logger.LogInformation("we are running");
+            _logger.LogCritical("we are running");
+            _logger.LogDebug("we are running");
+            _logger.LogError("we are running");
+            _logger.LogTrace("we are running");
+            _logger.LogWarning("we are running");
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
-            Logger.LogError(ex.ToString());
+            _logger.LogError(ex.ToString());
         }
     }
 }
