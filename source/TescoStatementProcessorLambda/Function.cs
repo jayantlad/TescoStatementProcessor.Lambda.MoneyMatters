@@ -60,18 +60,18 @@ public class Function
     {
         try
         {
-            _logger.LogInformation("we are running");
-            _logger.LogCritical("we are running");
-            _logger.LogDebug("we are running");
-            _logger.LogError("we are running");
-            _logger.LogTrace("we are running");
-            _logger.LogWarning("we are running");
-            Logger.LogInformation("we are running");
-            Logger.LogCritical("we are running");
-            Logger.LogDebug("we are running");
-            Logger.LogError("we are running");
-            Logger.LogTrace("we are running");
-            Logger.LogWarning("we are running");
+            _logger.LogInformation("we are running {event}", input);
+            _logger.LogCritical("we are running {event}", input);
+            _logger.LogDebug("we are running {event}", input);
+            _logger.LogError("we are running {event}", input);
+            _logger.LogTrace("we are running {event}", input);
+            _logger.LogWarning("we are running {event}", input);
+            Logger.LogInformation("we are running {event}", input);
+            Logger.LogCritical("we are running {event}", input);
+            Logger.LogDebug("we are running {event}", input);
+            Logger.LogError("we are running {event}", input);
+            Logger.LogTrace("we are running {event}", input);
+            Logger.LogWarning("we are running {event}", input);
             await _statementProcessor.ProcessAsync(input, new CancellationToken());
         }
         catch(Exception ex){
