@@ -28,7 +28,6 @@ public class StatementFactory(ILogger<StatementFactory> logger) : IStatementFact
             logger.LogInformation(line);
             transactionLines.Add(TransactionFactory.Create(line));
         }
-        logger.LogInformation("{@transactionLines}", transactionLines);
         return new Statement { StatementId = Guid.NewGuid(), Transactions = transactionLines, FileName = getObjectResponse.Key, Provider = Constants.Tesco, Product = Constants.MasterCard };
     }
 }

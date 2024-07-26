@@ -25,7 +25,7 @@ internal sealed class StatementProcessor(IStatementFactory statementFactory,
         logger.LogInformation("Creating and saving statement");
 
         await statementFactory.CreateAsync(getObjectResponse, cancellationToken)
-            .ContinueWith(s => statementRespository.SaveStatementAsync(s.Result, cancellationToken));
+            .ContinueWith(async s => await statementRespository.SaveStatementAsync(s.Result, cancellationToken));
 
         logger.LogInformation("Finsihed creating and saving statement");
 
