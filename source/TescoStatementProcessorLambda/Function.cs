@@ -28,8 +28,8 @@ public class Function
         var services= new ServiceCollection();
         services.AddDefaultAWSOptions(config.GetAWSOptions());
         services.AddAWSService<IAmazonS3>();
-        services.AddAWSService<IAmazonDynamoDB>();
         services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+        services.AddAWSService<IAmazonDynamoDB>();
         services.AddScoped<IStatementProcessor, StatementProcessor>();
         services.AddScoped<IStatementRespository, StatementRespository>();
         services.AddScoped<IStatementFactory, StatementFactory>();
