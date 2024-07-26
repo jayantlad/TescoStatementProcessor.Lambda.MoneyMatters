@@ -22,8 +22,13 @@ internal sealed class StatementProcessor(IStatementFactory statementFactory,
 
         var getObjectResponse = await amazonS3Client.GetObjectAsync(getObjectRequest, cancellationToken);
 
+        logger.LogInformation("Creating and saving statement");
+
         await statementFactory.CreateAsync(getObjectResponse, cancellationToken)
             .ContinueWith(s => statementRespository.SaveStatementAsync(s.Result, cancellationToken));
+
+        logger.LogInformation("Finsihed creating and saving statement");
+
     }
 }
 
