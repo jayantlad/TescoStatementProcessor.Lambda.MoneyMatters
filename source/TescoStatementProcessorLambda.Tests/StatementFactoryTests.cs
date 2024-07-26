@@ -1,5 +1,7 @@
 ﻿using Amazon.S3.Model;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
 using System.IO;
 using TescoStatementHandler.Factories;
 using Xunit;
@@ -8,11 +10,13 @@ namespace TescoStatementProcessorLambda.Tests;
 
 public class StatementFactoryTests
 {
+    private readonly Mock<ILogger<StatementFactory>> _logger;
     private StatementFactory _sut;
 
     public StatementFactoryTests()
     {
-        _sut = new StatementFactory();
+        _logger = new Mock<ILogger<StatementFactory>>();
+        _sut = new StatementFactory(_logger.Object);
     }
 
     [Fact]
