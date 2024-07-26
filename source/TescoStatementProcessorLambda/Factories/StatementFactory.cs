@@ -1,4 +1,5 @@
-﻿using Amazon.S3.Model;
+﻿using Amazon.Runtime.SharedInterfaces;
+using Amazon.S3.Model;
 using Microsoft.Extensions.Logging;
 using TescoStatementProcessorLambda;
 
@@ -15,7 +16,7 @@ public class StatementFactory(ILogger<StatementFactory> logger) : IStatementFact
 
         if (sr.EndOfStream)
         {
-            logger.LogInformation("end of stream");
+            logger.LogInformation("Statement empty {@getObjectResponse}", getObjectResponse);
             return new Statement { StatementId = Guid.NewGuid(), Transactions = Enumerable.Empty<Transaction>().ToList(), FileName = string.Empty, Provider = string.Empty, Product = string.Empty };
         }
             
@@ -25,7 +26,6 @@ public class StatementFactory(ILogger<StatementFactory> logger) : IStatementFact
         while (!sr.EndOfStream)
         {
             var line = await sr.ReadLineAsync(cancellationToken);
-            logger.LogInformation(line);
             transactionLines.Add(TransactionFactory.Create(line));
         }
         return new Statement { StatementId = Guid.NewGuid(), Transactions = transactionLines, FileName = getObjectResponse.Key, Provider = Constants.Tesco, Product = Constants.MasterCard };

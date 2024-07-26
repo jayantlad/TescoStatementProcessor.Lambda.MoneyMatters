@@ -24,6 +24,7 @@ resource "aws_iam_role" "iam_for_lambda" {
           "dynamodb:PutItem",
           "dynamodb:Scan",
           "dynamodb:Query",
+          "dynamodb:UpdateItem",
         ]
         Resource = [
           data.aws_dynamodb_table.statements.arn
