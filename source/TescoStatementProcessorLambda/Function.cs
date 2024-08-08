@@ -32,6 +32,7 @@ public class Function
         services.AddAWSService<IAmazonDynamoDB>();
         services.AddScoped<IStatementProcessor, StatementProcessor>();
         services.AddScoped<IStatementRespository, StatementRespository>();
+        services.AddScoped<ITransactionRespository, TransactionRespository>();
         services.AddScoped<IStatementFactory, StatementFactory>();
         services.AddLogging(builder => {
             builder.ClearProviders();

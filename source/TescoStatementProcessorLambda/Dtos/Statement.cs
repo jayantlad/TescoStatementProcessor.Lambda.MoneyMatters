@@ -10,14 +10,19 @@ public record class Statement
     [DynamoDBHashKey]
     public Guid StatementId { get; init; }
 
-    public List<Transaction>? Transactions { get; init; }
-    public string FileName  { get; init; }
+    public List<Guid>? Transactions { get; init; }
+    public string FileName { get; init; }
     public string Provider { get; init; }
     public string Product { get; init; }
+
+    internal static Statement Create(Guid guid, List<Guid> transactionIds, string fileName, string provider, string product) =>
+        new Statement { StatementId = guid, Transactions = transactionIds, FileName = fileName, Provider = provider, Product = product };
 }
 
+[DynamoDBTable("Transactions")]
 public record class Transaction
 {
+    [DynamoDBHashKey]
     public Guid TransactionId { get; init; }
     public DateTimeValue TransactionDate { get; init; }
     public DateTimeValue PostingDate { get; init; }
@@ -27,6 +32,7 @@ public record class Transaction
     public DebitCreditFlagValue DebitCreditFlag { get; init; }
     public string SICMCCCode { get; init; } = string.Empty;
     public string EncodedRawData { get; init; } = string.Empty;
+    public Guid StatementId { get; init; }
 }
 
 public record class DateTimeValue()

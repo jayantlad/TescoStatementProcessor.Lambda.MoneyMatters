@@ -35,8 +35,8 @@ public class StatementFactoryTests
 
         var statement = await _sut.CreateAsync(getObjectResponse, cancellationToken);
 
-        statement.Product.Should().Be(Constants.MasterCard);
-        statement.Provider.Should().Be(Constants.Tesco);
+        statement.Statement.Product.Should().Be(Constants.MasterCard);
+        statement.Statement.Provider.Should().Be(Constants.Tesco);
         statement.Transactions.Count().Should().Be(lines.Count() - 1);
     }
 }

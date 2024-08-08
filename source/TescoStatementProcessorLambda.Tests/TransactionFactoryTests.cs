@@ -18,7 +18,7 @@ public class TransactionFactoryTests
 
         foreach (var line in lines)
         {
-            var transaction = TransactionFactory.Create(line);
+            var transaction = TransactionFactory.Create(line, Guid.NewGuid());
 
             var values = line.Split(',');
 
@@ -46,7 +46,7 @@ public class TransactionFactoryTests
 
         var lines = (await File.ReadAllLinesAsync(aStatement, cancellationToken)).Skip(1);
 
-        var transactions = lines.Select(TransactionFactory.Create);
+        var transactions = lines.Select(l => TransactionFactory.Create(l, Guid.NewGuid()));
 
         foreach (var transaction in transactions)
         {

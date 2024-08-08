@@ -6,7 +6,6 @@ using TescoStatementProcessorLambda.Dtos;
 
 namespace TescoStatementProcessorLambda;
 
-
 internal sealed class StatementProcessor(IStatementFactory statementFactory,
         ILogger<StatementProcessor> logger,
         IAmazonS3 amazonS3Client,
@@ -23,7 +22,7 @@ internal sealed class StatementProcessor(IStatementFactory statementFactory,
         var getObjectResponse = await amazonS3Client.GetObjectAsync(getObjectRequest, cancellationToken);
 
         var statement = await statementFactory.CreateAsync(getObjectResponse, cancellationToken);
-        await statementRespository.SaveStatementAsync(statement, cancellationToken);
+        await statementRespository.SaveStatementAsync(statement.Statement, cancellationToken);
     }
 }
 

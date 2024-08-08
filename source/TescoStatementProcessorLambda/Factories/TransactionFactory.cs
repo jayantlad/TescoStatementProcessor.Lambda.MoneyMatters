@@ -6,13 +6,14 @@ namespace TescoStatementHandler.Factories;
 public class TransactionFactory
 {
     public static Transaction Create(
-        string rawData)
+        string rawData, Guid statementId)
     {
         var columns = rawData.Split(',');
 
         return new Transaction
         {
             TransactionId = Guid.NewGuid(),
+            StatementId = statementId,
             TransactionDate = new DateTimeValue { DateTimeStr = columns[(int)TransactionLineColumns.TransactionDate] },
             PostingDate = new DateTimeValue { DateTimeStr = columns[(int)TransactionLineColumns.PostingDate] },
             BillingAmount = new BillingAmountValue { BillingAmountString = columns[(int)TransactionLineColumns.BillingAmount] },
