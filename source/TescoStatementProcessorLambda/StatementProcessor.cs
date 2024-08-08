@@ -9,7 +9,8 @@ namespace TescoStatementProcessorLambda;
 internal sealed class StatementProcessor(IStatementFactory statementFactory,
         ILogger<StatementProcessor> logger,
         IAmazonS3 amazonS3Client,
-        IStatementRespository statementRespository) : IStatementProcessor
+        IStatementRespository statementRespository,
+        ITransactionRespository transactionRespository) : IStatementProcessor
 {
     public async Task ProcessAsync(Event @event, CancellationToken cancellationToken)
     {
@@ -23,6 +24,7 @@ internal sealed class StatementProcessor(IStatementFactory statementFactory,
 
         var statement = await statementFactory.CreateAsync(getObjectResponse, cancellationToken);
         await statementRespository.SaveStatementAsync(statement.Statement, cancellationToken);
+        await transactionRespository.SaveTransactionsAsync(statement.Transactions, cancellationToken);
     }
 }
 

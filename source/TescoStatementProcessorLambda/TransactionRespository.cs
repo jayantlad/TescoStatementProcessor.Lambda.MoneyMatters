@@ -4,13 +4,17 @@ namespace TescoStatementProcessorLambda;
 
 internal sealed class TransactionRespository(IDynamoDBContext dynamoDBContext) : ITransactionRespository
 {
-    public async Task SaveStatementAsync(List<Transaction> transactions, CancellationToken cancellationToken)
+    public async Task SaveTransactionsAsync(List<Transaction> transactions, CancellationToken cancellationToken)
     {
-        await dynamoDBContext.SaveAsync(transactions, cancellationToken);
+        List<Task> tasks = new();
+        
+        transactions.ForEach(t => { tasks.Add(dynamoDBContext.SaveAsync(t, cancellationToken)); });
+
+        await Task.WhenAll(tasks.ToArray());
     }
 }
 
 internal interface ITransactionRespository
 {
-    Task SaveStatementAsync(List<Transaction> transactions, CancellationToken cancellationToken);
+    Task SaveTransactionsAsync(List<Transaction> transactions, CancellationToken cancellationToken);
 }
