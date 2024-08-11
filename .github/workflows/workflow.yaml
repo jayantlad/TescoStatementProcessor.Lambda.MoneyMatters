@@ -43,3 +43,14 @@ jobs:
       run: dotnet lambda package -pl ./source/TescoStatementProcessorLambda -c Release -pt zip -o package.zip
     - name: Deploy to S3
       run: aws s3 cp ./package.zip s3://moneymatters/lambda-packages/tesco_statement_handler/
+    - name: Get package version from S3
+      run: echo "TF_VAR_s3_object_version=$(aws s3api list-object-versions --bucket moneymatters --prefix lambda-packages/tesco_statement_handler/package.zip --query Versions[?IsLatest].VersionId --output text)" >> $GITHUB_ENV
+    - uses: hashicorp/setup-terraform@v3
+    - run: terraform -chdir=infrastructure init
+    - name: Terraform Validate
+      id: validate
+      run: terraform -chdir=infrastructure validate
+    - id: plan
+      run: terraform -chdir=infrastructure plan
+    - id: apply
+      run: terraform -chdir=infrastructure apply -auto-approve
