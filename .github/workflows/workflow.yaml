@@ -46,7 +46,10 @@ jobs:
     - name: Get package version from S3
       run: echo "TF_VAR_s3_object_version=$(aws s3api list-object-versions --bucket moneymatters --prefix lambda-packages/tesco_statement_handler/package.zip --query Versions[?IsLatest].VersionId --output text)" >> $GITHUB_ENV
     - uses: hashicorp/setup-terraform@v3
-    - run: terraform -chdir=infrastructure init
+    - name: terraform init
+      run: terraform -chdir=infrastructure init
+    - name: select workspace
+      run: terraform -chdir=infrastructure workspace select dev
     - name: Terraform Validate
       id: validate
       run: terraform -chdir=infrastructure validate

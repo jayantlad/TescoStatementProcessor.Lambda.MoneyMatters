@@ -2,4 +2,6 @@ Set-Item -Path env:TF_VAR_s3_object_version -Value $(aws s3api list-object-versi
 
 Write-Host $env:TF_VAR_s3_object_version
 
+terraform workspace select dev
+
 terraform apply
